@@ -110,7 +110,7 @@ pp %>%
 
 Next, separately write code to show each county and precinct and calculate the total votes in the Governor's race - bearing in mind that each precinct will have multiple rows in the dataframe, but you only want to see one row for each precinct. (So you'll want to use grouping and summarizing.)
 
-I stored the data table with the total votes column. I then grouped the data based on county and precinct so all of the votes within each precinct and county would be combined. I then filtered for the results of the governor's race and used the sum function to count the number of votes cast within each group, aka precinct.
+I stored the data table with the total votes column. I then grouped the data based on county and precinct so all of the votes within each precinct and county would be combined. I then filtered for the results of the governor's race and used the sum function to count the number of votes cast within each group, aka precinct. I then saved the data to a new name and arranged in descending order based on total number of votes.
 ```{r}
 
 pp_totalvotes <- pp %>%
@@ -121,18 +121,30 @@ pp_totalvotes %>%
   filter(office_name == "Governor / Lt. Governor") %>%
   summarise(sum(total_votes))
 
+mostvotes <- pp_totalvotes %>%
+  group_by(county_name, election_district_precinct) %>%
+  filter(office_name == "Governor / Lt. Governor") %>%
+  summarise(sum(total_votes))
+
+mostvotes %>%
+  arrange(desc(`sum(total_votes)`))
+
+
 
 ```
 
 What is the name and voting location of the precinct that saw the most votes in the governor's race? *Put answer here*
 
+Name: Prince George's County	Precinct: 15005
 ### Q2.
 
 Let's look at the average number of votes in each party's primary race for governor. Take the code you wrote for the last part of Q2, save the results to a new variable and then find the precincts with 0 total votes for governor.
 
+I arranged the data set I previously saved in ascending order and then just counted how many had 0 votes and which county had the most.
 ```{r}
 
-
+mostvotes %>%
+  arrange(`sum(total_votes)`)
 
 
 
@@ -140,8 +152,11 @@ Let's look at the average number of votes in each party's primary race for gover
 ```
 
 How many precincts are there, and which county has the most? *Put answer here*
+There are 12 precincts with 0 votes for governor's race. Prince George's county has the most precincts with 0 votes.
 
 What else would you need to know about these precincts to know whether this might be worth a story? *Put answer here*
+
+I would need to know population sizes of the precincts and counties. I would also need to know how spread out the precincts are. I suspect the larger cities have tons of precincts to the point of which some don't get used while rural areas might only have a few options to vote at. A classification system of rural/ suburban/ urban would also be helpful in that case. 
 
 ### Q3.
 
@@ -149,9 +164,26 @@ Choose your own adventure: I want you to come up with a question you could ask o
 
 First write the question and then try to answer it by writing code. If you're not sure of the exact code at a minimum, describe what you think you'd have to do to answer it and what the results would look like.
 
+
+
+
 ```{r}
 
 
+
+
+
+
+
+
+  
+  
+  
+  
+  
+
+
+  
 
 
 
