@@ -165,10 +165,19 @@ Choose your own adventure: I want you to come up with a question you could ask o
 First write the question and then try to answer it by writing code. If you're not sure of the exact code at a minimum, describe what you think you'd have to do to answer it and what the results would look like.
 
 
+Which congressional district had the most votes cast in their primaries?
+Congressional district 8 had the most votes cast
 
-
+I used the left joined table and mutated a column that calculated the total votes for each congressional district primary (which I grouped by). I then summarized the total votes (adding up the republican and democratic primary vote totals).
 ```{r}
 
+congressional_votes <- pp %>%
+  mutate(total_votes = early_votes + election_night_votes + provisional_votes + mail_in_ballot_1_votes + mail_in_ballot_2_votes) %>%
+  group_by(congressional_district_code) %>%
+  summarise(sum(total_votes))
+
+congressional_votes %>%
+  arrange(`sum(total_votes)`)
 
 
 
